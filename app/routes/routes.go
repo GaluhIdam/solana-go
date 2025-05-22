@@ -7,11 +7,9 @@ import (
 	"note-api/app/repositories"
 	"note-api/app/services"
 	"note-api/core/database"
-
 )
 
 func RegisterRoutes(app *fiber.App, dbPath string) {
-	// Connect ke DB
 	db, err := database.ConnectDB(dbPath)
 	if err != nil {
 		panic("❌ Failed to connect to database: " + err.Error())
@@ -27,9 +25,5 @@ func RegisterRoutes(app *fiber.App, dbPath string) {
 
 	// Users route group
 	user := api.Group("/users")
-	user.Get("/", userController.GetAll)
-	user.Get("/:id", userController.GetByID)
 	user.Post("/", userController.Create)
-	user.Put("/:id", userController.Update)
-	user.Delete("/:id", userController.Delete)
 }

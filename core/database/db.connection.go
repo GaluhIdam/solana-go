@@ -70,6 +70,10 @@ func ConnectDB(configPath string) (*gorm.DB, error) {
 		}
 		fallthrough
 	case "update":
+		log.Println("📄 Running AutoMigrate...")
+		if err := MigrateAll(DB); err != nil {
+			return nil, err
+		}
 		if dbConfig.Reset {
 			log.Println("⚠️  Reset enabled: deleting all records in tables...")
 			for _, model := range models.ModelList() {
@@ -78,10 +82,6 @@ func ConnectDB(configPath string) (*gorm.DB, error) {
 				}
 			}
 			log.Println("✅ All tables reset (data deleted)")
-		}
-		log.Println("📄 Running AutoMigrate...")
-		if err := MigrateAll(DB); err != nil {
-			return nil, err
 		}
 	case "none":
 		log.Println("⏩ Skipping DB migration (ddl-mode: none)")

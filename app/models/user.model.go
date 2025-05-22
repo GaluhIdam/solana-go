@@ -1,9 +1,15 @@
 package models
 
-import "time"
+import (
+	"math/rand"
+	"time"
+
+	"github.com/oklog/ulid/v2"
+	"gorm.io/gorm"
+)
 
 type UserModel struct {
-	ID        uint      `json:"id" gorm:"primaryKey"`
+	ID        string    `json:"id" gorm:"type:char(26);primaryKey"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Name      string    `json:"name"`
@@ -12,4 +18,13 @@ type UserModel struct {
 
 func (UserModel) TableName() string {
 	return "users"
+}
+
+func (user *UserModel) BeforeCreate(tx *gorm.DB) (err error) {
+	if user.ID == "" {
+		t := time.Now()
+		entropy := ulid.Monotonic(rand.New(rand.NewSource(t.UnixNano())), 0)
+		user.ID = ulid.MustNew(ulid.Timestamp(t), entropy).String()
+	}
+	return
 }

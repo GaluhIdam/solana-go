@@ -3,16 +3,13 @@ package services
 import (
 	"errors"
 
+	"note-api/app/dto"
 	"note-api/app/models"
 	"note-api/app/repositories"
 )
 
 type UserService interface {
-	GetAllUsers() ([]models.UserModel, error)
-	GetUserByID(id uint) (*models.UserModel, error)
-	CreateUser(user *models.UserModel) error
-	UpdateUser(user *models.UserModel) error
-	DeleteUser(id uint) error
+	CreateUser(user *dto.UserRequest) (*models.UserModel, error)
 }
 
 type userService struct {
@@ -23,36 +20,18 @@ func NewUserService(repo repositories.UserRepository) UserService {
 	return &userService{userRepo: repo}
 }
 
-func (s *userService) GetAllUsers() ([]models.UserModel, error) {
-	return s.userRepo.FindAll()
-}
-
-func (s *userService) GetUserByID(id uint) (*models.UserModel, error) {
-	return s.userRepo.FindByID(id)
-}
-
-func (s *userService) CreateUser(user *models.UserModel) error {
-	// Contoh validasi sederhana
-	if user.Name == "" || user.Email == "" {
-		return errors.New("name and email are required")
-	}
-
-	// Cek email unik
-	existing, _ := s.userRepo.FindByEmail(user.Email)
+func (s *userService) CreateUser(req *dto.UserRequest) (*models.UserModel, error) {
+	existing, _ := s.userRepo.FindByEmail(req.Email)
 	if existing != nil {
-		return errors.New("email already exists")
+		return nil, errors.New("email already exists")
 	}
 
-	return s.userRepo.Create(user)
-}
-
-func (s *userService) UpdateUser(user *models.UserModel) error {
-	if user.ID == 0 {
-		return errors.New("user ID is required for update")
+	user := &models.UserModel{
+		Name:  req.Name,
+		Email: req.Email,
 	}
-	return s.userRepo.Update(user)
-}
-
-func (s *userService) DeleteUser(id uint) error {
-	return s.userRepo.Delete(id)
+	if err := s.userRepo.Create(user); err != nil {
+		return nil, err
+	}
+	return user, nil
 }
