@@ -6,7 +6,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"{{.ModuleName}}/app/models"
+	"note-api/app/models"
 )
 
 func MigrateAll(db *gorm.DB) error {

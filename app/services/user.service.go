@@ -3,8 +3,8 @@ package services
 import (
 	"errors"
 
-	"{{.ModuleName}}/app/models"
-	"{{.ModuleName}}/app/repositories"
+	"note-api/app/models"
+	"note-api/app/repositories"
 )
 
 type UserService interface {

@@ -3,10 +3,11 @@ package routes
 import (
 	"github.com/gofiber/fiber/v2"
 
-	"{{.ModuleName}}/app/controllers"
-	"{{.ModuleName}}/app/repositories"
-	"{{.ModuleName}}/app/services"
-	"{{.ModuleName}}/core/database"
+	"note-api/app/controllers"
+	"note-api/app/repositories"
+	"note-api/app/services"
+	"note-api/core/database"
+
 )
 
 func RegisterRoutes(app *fiber.App, dbPath string) {

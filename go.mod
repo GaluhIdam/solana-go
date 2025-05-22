@@ -1,4 +1,4 @@
-module {{.ModuleName}}
+module note-api
 
 go 1.24.3
 

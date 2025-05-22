@@ -2,13 +2,12 @@ package main
 
 import (
 	"log"
+	"note-api/app/routes"
+	"note-api/core/config"
+	"note-api/core/database"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-
-	"{{.ModuleName}}/app/routes"
-	"{{.ModuleName}}/core/config"
-	"{{.ModuleName}}/core/database"
 
 )
 

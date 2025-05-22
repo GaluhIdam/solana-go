@@ -3,7 +3,8 @@ package repositories
 import (
 	"gorm.io/gorm"
 
-	"{{.ModuleName}}/app/models"
+	"note-api/app/models"
+
 )
 
 type UserRepository interface {

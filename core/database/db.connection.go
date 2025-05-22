@@ -8,8 +8,8 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"{{.ModuleName}}/app/models"
-	"{{.ModuleName}}/core/config"
+	"note-api/app/models"
+	"note-api/core/config"
 )
 
 var DB *gorm.DB
